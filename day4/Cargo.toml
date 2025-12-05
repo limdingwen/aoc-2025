@@ -1,0 +1,11 @@
+[package]
+name = "day4"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+grid = "1.0.0"
+
+[[bin]]
+name = "day4"
+path = "main.rs"
