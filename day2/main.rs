@@ -28,43 +28,34 @@ fn is_invalid_2(number: String) -> bool {
     return false;
 }
 
+fn invalid_total_in_range(range: &str, is_invalid: fn(String) -> bool) -> u64 {
+    let range = range.split("-").collect::<Vec<&str>>();
+    let from = range.get(0).unwrap();
+    let to = range.get(1).unwrap();
+    let from = from.parse::<u64>().unwrap();
+    let to = to.parse::<u64>().unwrap();
+    let total = (from..=to).map(|number| {
+        match is_invalid(number.to_string()) {
+            true => number,
+            false => 0,
+        }
+    }).sum::<u64>();
+    total
+}
+
 fn main() {
     // Read input
     let contents = fs::read_to_string("input.txt").unwrap();
 
     // Part 1
     {
-        let mut accumulator: i64 = 0;
-        for range in contents.split(",") {
-            let range = range.split("-").collect::<Vec<&str>>();
-            let from = range.get(0).unwrap();
-            let to = range.get(1).unwrap();
-            let from = from.parse::<i64>().unwrap();
-            let to = to.parse::<i64>().unwrap();
-            for number in from..=to {
-                if is_invalid_1(number.to_string()) {
-                    accumulator += number;
-                }
-            }
-        }
-        println!("{}", accumulator);
+        let total = contents.split(",").map(|range| invalid_total_in_range(range, is_invalid_1)).sum::<u64>();
+        println!("{}", total);
     }
 
     // Part 2
     {
-        let mut accumulator: i64 = 0;
-        for range in contents.split(",") {
-            let range = range.split("-").collect::<Vec<&str>>();
-            let from = range.get(0).unwrap();
-            let to = range.get(1).unwrap();
-            let from = from.parse::<i64>().unwrap();
-            let to = to.parse::<i64>().unwrap();
-            for number in from..=to {
-                if is_invalid_2(number.to_string()) {
-                    accumulator += number;
-                }
-            }
-        }
-        println!("{}", accumulator);
+        let total = contents.split(",").map(|range| invalid_total_in_range(range, is_invalid_2)).sum::<u64>();
+        println!("{}", total);
     }
 }
