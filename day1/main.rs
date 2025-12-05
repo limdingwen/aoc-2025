@@ -1,13 +1,5 @@
 use std::fs;
 
-fn get_direction(c: char) -> i64 {
-    match c {
-        'L' => -1,
-        'R' => 1,
-        _ => panic!("Invalid direction"),
-    }
-}
-
 fn main() {
     // Read input
     let contents = fs::read_to_string("input.txt").unwrap();
@@ -15,9 +7,13 @@ fn main() {
     // Part 1
     {
         let mut dial = 50;
-        let mut at_zero = 0;
+        let mut at_zero: i64 = 0;
         for line in contents.lines() {
-            let direction = get_direction(line.chars().nth(0).unwrap());
+            let direction = match line.chars().nth(0).unwrap() {
+                'L' => -1,
+                'R' => 1,
+                _ => panic!("Invalid direction"),
+            };
             let distance = line[1..].parse::<i64>().unwrap();
             dial += direction * distance;
             dial = dial.rem_euclid(100);
@@ -30,10 +26,14 @@ fn main() {
 
     // Part 2
     {
-        let mut dial = 50;
-        let mut at_zero = 0;
+        let mut dial: i64 = 50;
+        let mut at_zero: i64 = 0;
         for line in contents.lines() {
-            let direction = get_direction(line.chars().nth(0).unwrap());
+            let direction = match line.chars().nth(0).unwrap() {
+                'L' => -1,
+                'R' => 1,
+                _ => panic!("Invalid direction"),
+            };
             let distance = line[1..].parse::<i64>().unwrap();
             for _ in 0..distance {
                 dial += direction;
